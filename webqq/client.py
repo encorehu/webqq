@@ -12,6 +12,9 @@ class WebQQClient(object):
     def poll(self):
         return 'poll'
 
+    def handle(self, data):
+        print data
+
     def run_forever(self):
         i=0
         while True:
