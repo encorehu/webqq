@@ -1,4 +1,7 @@
 class WebQQClient(object):
+    def __init__(self, *args, **kwargs):
+        self.handle_count = 0
+        self.set_runflag(False)
 
     def login(self, username=None, password=None):
         return True
