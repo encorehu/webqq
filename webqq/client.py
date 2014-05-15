@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import json
+import random
+
 from webclient import WebBrowser
 
 class WebQQClient(WebBrowser):
