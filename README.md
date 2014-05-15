@@ -41,11 +41,6 @@ webqq调用代码
 
     from webqq import WebQQClient
     webqq_client = WebQQClient(debug=False)
-    # 你可以在这里添加代码, 将会是加载自己写的插件的部分
-    # 暂时接口设置为
-    # webqq_client.plugins.append(yourplugin)
-    # 或者
-    # webqq_client.plugins = [yourplugins]
     webqq_client.login(username = '12345678',
                   password = '88888888')
     webqq_client.run_forever()
