@@ -4,6 +4,7 @@ class WebQQClient(object):
         self.set_runflag(False)
 
     def login(self, username=None, password=None):
+        self.set_runflag(True)
         return True
 
     def logout(self):
