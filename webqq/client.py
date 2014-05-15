@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 
+from webclient import WebBrowser
+
 class WebQQClient(object):
     def __init__(self, *args, **kwargs):
         self.handle_count = 0
