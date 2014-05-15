@@ -1,0 +1,2 @@
+class WebQQClient(object):
+    pass
