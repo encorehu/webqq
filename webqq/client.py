@@ -2,7 +2,7 @@
 
 from webclient import WebBrowser
 
-class WebQQClient(object):
+class WebQQClient(WebBrowser):
     def __init__(self, *args, **kwargs):
         self.handle_count = 0
         self.set_runflag(False)
