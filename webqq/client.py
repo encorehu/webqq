@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 class WebQQClient(object):
     def __init__(self, *args, **kwargs):
         self.handle_count = 0
