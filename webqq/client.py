@@ -329,6 +329,92 @@ class WebQQClient(WebBrowser):
             print u'qqapi接口重要参数是:',self.vfwebqq, self.psessionid
             return False
 
+    def login_web2(self):
+        '''登录WEBQQ聊天接口'''
+        """ webQQ登录流程
+        1. 输入框中输入QQ号码之后, 点击密码框的时候, 会触发 请求验证码 事件,访问http://check.ptlogin2.qq.com/ 看看你的账号是否异常, 如果正常就不需要验证码
+        2. 对输入的密码进行加密后, 提供QQ号码, 加密后的密码到'http://ptlogin2.qq.com/login?' 进行验证登录, 这个时候只是相当于登录了web.qq.com这个网站
+        3. 登录qq. 根据第二步中的返回结果, 得到加密的字符串, 访问  最终登录了QQ.
+        """
+
+
+
+        """http://d.web2.qq.com/channel/login2
+        访问qq真实登录地址，获取登录令牌第二部分——最后补全的cookies,如果不能获取，则代表登录出现问题
+
+        提交数据 ＝ “r=%7B%22status%22%3A%22online%22%2C%22ptwebqq%22%3A%22” ＋ ptwebqq ＋ “%22%2C%22passwd_sig%22%3A%22%22%2C%22clientid%22%3A%22” ＋ clintid ＋ “%22%2C%22psessionid%22%3Anull%7D&clientid=” ＋ clintid ＋ “&psessionid=null”
+
+        """
+        #print self.cookie
+        print u'3.登录qq聊天接口'
+        #login_url2 = 'http://web2-b.qq.com/channel/login'
+        #self.headers['Referer'] = 'http://web2-b.qq.com/proxy.html'
+
+        login_url2 = 'http://d.web2.qq.com/channel/login2'
+        headers={}
+        headers['Referer'] = 'http://d.web2.qq.com/proxy.html?v=20110331002&callback=1&id=3'
+        #print 'POST', login_url2
+
+        #登陆成功之后, 浏览器用的地址, 实际上程序用不着
+        #login_url2 = 'http://web.qq.com/loginproxy.html?login2qq=0&webqq_type=10'
+        #print 'GET', login_url2
+        #self.headers['Referer'] = 'http://ui.ptlogin2.qq.com/cgi-bin/login?target=self&style=5&mibao_css=m_webqq&appid=1003903&enable_qlogin=0&no_verifyimg=1&s_url=http%3A%2F%2Fweb.qq.com%2Floginproxy.html&f_url=loginerroralert&strong_login=0&login_state=10&t=20121029001'
+
+        #post_data = 'r={"status":"","ptwebqq":"%s","passwd_sig":"","clientid":"97923442"}' % self.ptwebqq
+        post_data = 'r={"status":"online","ptwebqq":"%s","passwd_sig":"","clientid":"%s","psessionid":null}&clientid=%s&psessionid=null' % (self.ptwebqq,self.clientid,self.clientid)
+        #print post_data
+
+        """ 'r={"status":"","ptwebqq":"{1}","passwd_sig":"","clientid":"{2}"}' """
+        import urllib
+        post_data = urllib.quote(post_data,safe='=')
+
+
+
+        """
+        获得完整的登录令牌
+        """
+        #post_data = urllib.urlencode(post_data)
+        #response = self.opener.open(login_url2, post_data, self.timeout )
+        response = self.post(login_url2, data=post_data, headers=headers)
+        #print 'REALURL',
+        #print response.geturl()
+        #print response.info()
+
+        content  = response
+        print content
+
+        #
+        #print 'Cookies..........'
+        #for index,cookie in enumerate(self.cookie):
+        #    #print index,":",cookie
+        #    print cookie.name, cookie.value
+
+        try:
+            json_data = json.loads(content,encoding='utf-8')
+        except ValueError as e:
+            print e
+        else:
+            # 获取 vfwebqq 和 psessionid
+            retcode = json_data['retcode']
+            if retcode == 0:
+                print u'正常登录qqapi接口'
+                try:
+                    print u'从返回的数据中获取用于操作 qqapi 接口的必要信息'
+                    self.vfwebqq    = json_data['result']['vfwebqq']
+                    self.psessionid = json_data['result']['psessionid']
+                    self.cookiejar.save()
+                    print u'重要信息获取成功'
+                    return True
+                except KeyError:
+                    self.vfwebqq    = ''
+                    self.psessionid = ''
+                    print '未能正常获取用于操作 qqapi 接口的必要信息, 登录失败.'
+                    return False
+            elif  retcode == 103 or retcode ==121:
+                print u'连接不成功，需要重新登录'
+                self.logged_in = False
+                return False
+
     def login(self, username=None, password=None):
         if username and password:
             self.uin      = username
