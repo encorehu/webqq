@@ -19,7 +19,7 @@ class WebQQException(Exception):
 
 class WebQQClient(WebBrowser):
     def __init__(self, *args, **kwargs):
-        super(WebQQClient, self).__init__()
+        super(WebQQClient, self).__init__(*args, **kwargs)
         self.handle_count = 0
         self.ptwebqq    = ''
         self.clientid = get_clientid()
