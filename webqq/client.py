@@ -2,6 +2,7 @@
 
 import json
 import random
+import time
 
 from webclient import WebBrowser
 
@@ -11,7 +12,8 @@ from protocol import (WEBQQ_APPID,
     get_password,
     )
 
-
+import logging
+logger=logging.getLogger('webclient.webqq')
 
 
 class WebQQException(Exception):
