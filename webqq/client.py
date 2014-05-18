@@ -504,20 +504,26 @@ class WebQQClient(WebBrowser):
     def poll(self):
         poll_url='http://d.web2.qq.com/channel/poll2'
         headers = {'Referer': 'http://d.web2.qq.com/proxy.html?v=20110331002&callback=1&id=3'}
-        r=dict(clientid=self.clientid, psessionid=self.psessionid,key=0,ids=[])
-        print json.dumps(r, separators=(',',':'))
+        r = {'clientid':self.clientid,'psessionid':self.psessionid,'key':0,'ids':[]}
+
         data = {
-            'r': json.dumps(r, separators=(',',':')),
-            'clientid': self.token['client_id'],
-            'psessionid': self.token['session_id']
+            'r':json.dumps(r, separators=(',',':')),
+            'clientid':self.clientid,
+            'psessionid':self.psessionid
         }
-        import urllib
-        print urllib.urlencode(data)
+
         response = self.post(poll_url, data, headers=headers)
-        #messages_data = json.loads(response_of_poll.text)
-        #message.dispatch(messages_data, self)
-        #print response
-        return
+        messages = json.loads(response)
+        if isinstance(messages, dict):
+            retcode = messages['retcode']
+            if retcode == 116:
+                self.ptwebqq=messages['p']
+                logger.info('ptwebqq value CHANGED.')
+            elif retcode in [108,112]:
+                logger.warn('YOUR ARE OFFLINE!!!')
+            else:
+                return messages
+        return None
 
     def handle(self, data):
         print data
