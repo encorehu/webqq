@@ -499,7 +499,21 @@ class WebQQClient(WebBrowser):
         print 'Bom..bong!'
 
     def poll(self):
-        return 'poll'
+        headers = {'Referer': 'http://d.web2.qq.com/proxy.html?v=20110331002&callback=1&id=3'}
+        r=dict(clientid=self.clientid, psessionid=self.psessionid,key=0,ids=[])
+        print json.dumps(r, separators=(',',':'))
+        data = {
+            'r': json.dumps(r, separators=(',',':')),
+            'clientid': self.token['client_id'],
+            'psessionid': self.token['session_id']
+        }
+        import urllib
+        print urllib.urlencode(data)
+        #response = self.post('http://d.web2.qq.com/channel/poll2', data=data, headers=headers)
+        #messages_data = json.loads(response_of_poll.text)
+        #message.dispatch(messages_data, self)
+        #print response
+        return
 
     def handle(self, data):
         print data
