@@ -316,6 +316,19 @@ class WebQQClient(WebBrowser):
             self.logged_in = True
             return True
 
+    def need_login_web2(self):
+        # 看看 这个机器人还需不需要再次登录http://web2.qq.com
+        # vfwebqq 的值是未注销之前的值, 如果有值, 说明cookie或者内存中有这个值, 机器人还处于未注销的状态, 就不需要再次登录网站了
+        print 'vfwebqq',repr(self.vfwebqq)
+        print 'psessionid',repr(self.psessionid)
+        print 'Boolean', repr(self.vfwebqq and self.psessionid)
+        if self.vfwebqq =='' and self.psessionid =='':
+            print u'qqapi接口重要参数是空值!!!!!需要获取这些重要参数'
+            return True
+        else:
+            print u'qqapi接口重要参数是:',self.vfwebqq, self.psessionid
+            return False
+
     def login(self, username=None, password=None):
         if username and password:
             self.uin      = username
