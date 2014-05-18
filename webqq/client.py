@@ -32,6 +32,13 @@ class WebQQClient(WebBrowser):
         self.set_runflag(False)
         print 'clientid',self.clientid
 
+    def need_username(self):
+        '''用户名是QQ登录账号(数字, 长度大于5)或者邮箱地址'''
+        if self.username is None or len(self.username)<5 :
+            return True
+        else:
+            return False
+
     def check_login_sig(self):
         login_sig_url = 'https://ui.ptlogin2.qq.com/cgi-bin/login?daid=164&target=self&style=5&mibao_css=m_webqq&appid=1003903&enable_qlogin=0&no_verifyimg=1&s_url=http%3A%2F%2Fweb2.qq.com%2Floginproxy.html&f_url=loginerroralert&strong_login=0&login_state=10&t=20131202001'
         referer = 'http://web2.qq.com/webqq.html'
