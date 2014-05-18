@@ -655,11 +655,21 @@ class WebQQClient(WebBrowser):
     def run_forever(self):
         self.get_group_lists()
         while self.runflag:
-            self.heartbeat()
-            data = self.poll()
-            for handler in self.get_handlers():
-                handler(data)
-                self.handle_count = self.handle_count +1
+            try:
+                self.heartbeat()
+                data = self.poll()
+                for handler in self.get_handlers():
+                    handler(data)
+                    self.handle_count = self.handle_count +1
+
+                if self.handle_count < 40:
+                    self.set_runflag(True)
+                else:
+                    self.set_runflag(False)
+                time.sleep(0.1)
+            except KeyboardInterrupt:
+                print "Auto Polling and Responding Stopped by user... \n"
+                raise
 
         self.logout()
         print 'Exiting...'
