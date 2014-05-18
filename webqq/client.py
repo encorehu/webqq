@@ -532,7 +532,7 @@ class WebQQClient(WebBrowser):
                 handler(data)
                 self.handle_count = self.handle_count +1
 
-            if self.handle_count < 100:
+            if self.handle_count < 10:
                 self.set_runflag(True)
             else:
                 self.set_runflag(False)
