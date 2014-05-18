@@ -25,6 +25,7 @@ class WebQQClient(WebBrowser):
         self.handle_count = 0
         self.ptwebqq    = ''
         self.clientid = get_clientid()
+        self.msg_id   = random.randint(19990909,99999999)
         self.psessionid = ''
         self.vfwebqq    = ''
         self.skey       = ''
