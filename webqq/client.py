@@ -436,7 +436,7 @@ class WebQQClient(WebBrowser):
                 self.logged_in = False
                 return False
 
-    def login(self, username=None, password=None):
+    def login(self, username = None, password = None):
         if username and password:
             self.uin      = username
             self.username = username
