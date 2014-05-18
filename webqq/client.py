@@ -477,10 +477,8 @@ class WebQQClient(WebBrowser):
                     self.runflag = False
                     return False
 
-                self.runflag = True
+                self.set_runflag(True)
                 return True
-        self.set_runflag(True)
-        return True
 
     def logout(self):
         api_url   = 'http://d.web2.qq.com/channel/logout2?ids=&clientid=%s&psessionid=%s&t=%s' % (self.clientid, self.psessionid, get_timestamp())
