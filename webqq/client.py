@@ -32,28 +32,6 @@ class WebQQClient(WebBrowser):
         self.set_runflag(False)
         print 'clientid',self.clientid
 
-    def need_login_ptlogin2(self):
-        # 看看 这个机器人还需不需要再次登录http://ptlogin2.qq.com/login
-        # ptwebqq 的值是未注销之前的值, 如果有值, 说明cookie或者内存中有这个值, 机器人还处于未注销的状态, 就不需要再次登录网站了
-        if self.cookiejar == None:
-            return True
-        else:
-            for index,cookie in enumerate(self.cookiejar):
-                #print index,":",cookie
-                if cookie.name == 'ptwebqq':
-                    self.ptwebqq = cookie.value
-
-                if cookie.name == 'skey':
-                    self.skey    = cookie.value
-
-                if cookie.name == 'ptcz':
-                    self.ptcz    = cookie.value
-
-            if self.ptwebqq:
-                return False
-            else:
-                return True
-
     def check_login_sig(self):
         login_sig_url = 'https://ui.ptlogin2.qq.com/cgi-bin/login?daid=164&target=self&style=5&mibao_css=m_webqq&appid=1003903&enable_qlogin=0&no_verifyimg=1&s_url=http%3A%2F%2Fweb2.qq.com%2Floginproxy.html&f_url=loginerroralert&strong_login=0&login_state=10&t=20131202001'
         referer = 'http://web2.qq.com/webqq.html'
@@ -190,6 +168,28 @@ class WebQQClient(WebBrowser):
         print 'verify_code2',verify_code2
         self.verify_code1, self.verify_code2 = (verify_code1, verify_code2)
         return (verify_code1, verify_code2)
+
+    def need_login_ptlogin2(self):
+        # 看看 这个机器人还需不需要再次登录http://ptlogin2.qq.com/login
+        # ptwebqq 的值是未注销之前的值, 如果有值, 说明cookie或者内存中有这个值, 机器人还处于未注销的状态, 就不需要再次登录网站了
+        if self.cookiejar == None:
+            return True
+        else:
+            for index,cookie in enumerate(self.cookiejar):
+                #print index,":",cookie
+                if cookie.name == 'ptwebqq':
+                    self.ptwebqq = cookie.value
+
+                if cookie.name == 'skey':
+                    self.skey    = cookie.value
+
+                if cookie.name == 'ptcz':
+                    self.ptcz    = cookie.value
+
+            if self.ptwebqq:
+                return False
+            else:
+                return True
 
     def login_ptlogin2(self, username = None, password = None, verify_code1 = None, verify_code2 = None):
         '''登录QQ平台'''
