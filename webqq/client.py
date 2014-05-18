@@ -22,7 +22,15 @@ class WebQQClient(WebBrowser):
         super(WebQQClient, self).__init__()
         self.handle_count = 0
         self.ptwebqq    = ''
+        self.clientid = get_clientid()
+        self.psessionid = ''
+        self.vfwebqq    = ''
+        self.skey       = ''
+        self.uin      = kwargs.pop('username', None)
+        #self.password = password
+
         self.set_runflag(False)
+        print 'clientid',self.clientid
 
     def need_login_ptlogin2(self):
         # 看看 这个机器人还需不需要再次登录http://ptlogin2.qq.com/login
