@@ -21,6 +21,7 @@ class WebQQClient(WebBrowser):
     def __init__(self, *args, **kwargs):
         super(WebQQClient, self).__init__()
         self.handle_count = 0
+        self.ptwebqq    = ''
         self.set_runflag(False)
 
     def need_login_ptlogin2(self):
