@@ -525,6 +525,10 @@ class WebQQClient(WebBrowser):
     def get_handlers(self):
         return [self.handle]
 
+    def get_msg_id(self):
+        self.msg_id +=1
+        return self.msg_id
+
     def set_runflag(self, value):
         self.runflag = value
 
