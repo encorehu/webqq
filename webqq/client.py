@@ -253,7 +253,8 @@ class WebQQClient(WebBrowser):
 
         """
         获取登录令牌第一部分，如果要写的健壮一些，那么这里可以对返回数据做一个验证，
-        正常登陆返回ptuiCB('0','0','http://t.qq.com','1','登录成功！', '娱讯传媒');
+        正常登陆返回
+        ptuiCB('0','0','http://t.qq.com','1','登录成功！', '娱讯传媒');
         错误的返回
         ptuiCB('7','0','','0','很遗憾，网络连接出现异常，请您稍后再试。(124780859)', '2476202050');
         ptuiCB('4','0','','0','您输入的验证码不正确，请重新输入。', '2476202050');
@@ -261,6 +262,39 @@ class WebQQClient(WebBrowser):
 
         可以验证第一个0，如果不是0，那么就是不正常登陆
         """
+
+        #pgv_pvid=936990096; pgv_info=ssid=s3561591060&pgvReferrer=;
+        import cookielib
+        version = 0
+        name='pgv_pvid'
+        value='936990096'
+        port = None
+        port_specified=None
+        domain, domain_specified, domain_initial_dot='ui.ptlogin2.qq.com', None, None
+        path, path_specified = '/',None
+        secure = None
+        expires = None
+        discard = None
+        comment = None
+        comment_url = None
+        rest = {}
+        c = cookielib.Cookie(version,
+                      name, value,
+                      port, port_specified,
+                      domain, domain_specified, domain_initial_dot,
+                      path, path_specified,
+                      secure,
+                      expires,
+                      discard,
+                      comment,
+                      comment_url,
+                      rest)
+
+        self.cookiejar.set_cookie(c)
+        c.name='pgv_info'
+        c.value='ssid=s3561591060&pgvReferrer='
+        self.cookiejar.set_cookie(c)
+
         response=self.get(loginURL, headers=headers)
 
         content = response
