@@ -490,7 +490,7 @@ class WebQQClient(WebBrowser):
         self.clientid   = 0
 
     def heartbeat(self):
-        print 'Bom..bong!'
+        print 'Bom..bong!', self.handle_count
 
     def poll(self):
         return 'poll'
