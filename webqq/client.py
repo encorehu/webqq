@@ -205,7 +205,8 @@ class WebQQClient(WebBrowser):
     def login_ptlogin2(self, username = None, password = None, verify_code1 = None, verify_code2 = None):
         '''登录QQ平台'''
         print u'2.开始登录webqq网站'
-        loginURL  = 'http://ptlogin2.qq.com/login?'
+        loginURL  = 'https://ssl.ptlogin2.qq.com/login?'
+
         data ={
             'u':self.uin,
             'p':get_password(password, verify_code1, verify_code2), #对密码进行加密
@@ -239,6 +240,9 @@ class WebQQClient(WebBrowser):
         #print 'query_string',query_string
 
         loginURL=loginURL+query_string
+        #loginURL='https://ssl.ptlogin2.qq.com/login?u='+self.uin+'&p='+get_password(password, verify_code1, verify_code2)+'&verifycode='+verify_code1+'&webqq_type=10&remember_uin=1&login2qq=0&aid=1003903&u1=http%3A%2F%2Fweb2.qq.com%2Floginproxy.html%3Flogin2qq%3D0%26webqq_type%3D10&h=1&ptredirect=0&ptlang=2052&daid=164&from_ui=1&pttype=1&dumy=&fp=loginerroralert&action=4-19-23387&mibao_css=m_webqq&t=1&g=1&js_type=0&js_ver=10079&login_sig='+self.login_sig+'&pt_uistyle=5'
+
+        print 'GET', loginURL
         """
         添加http的header头，一定要添加referer,腾讯服务器会判断, 否则登录不成功
         """
