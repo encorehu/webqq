@@ -494,7 +494,19 @@ class WebQQClient(WebBrowser):
         print 'Bom..bong!', self.handle_count
 
     def poll(self):
-        return 'poll'
+        poll_url='http://d.web2.qq.com/channel/poll2'
+        headers = {'Referer': 'http://d.web2.qq.com/proxy.html?v=20110331002&callback=1&id=3'}
+        r = {'clientid':self.clientid,'psessionid':self.psessionid,'key':0,'ids':[]}
+
+        data = {
+            'r':json.dumps(r, separators=(',',':')),
+            'clientid':self.clientid,
+            'psessionid':self.psessionid
+        }
+
+        response = self.post(poll_url, data, headers=headers)
+        messages = json.loads(response)
+        return messages
 
     def handle(self, data):
         print data
