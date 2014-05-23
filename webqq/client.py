@@ -300,6 +300,13 @@ class WebQQClient(WebBrowser):
         content = response
         print content,type(content)
 
+        check_url = content.split("','")[2]
+        if check_url.startswith('http'):
+            self.get(check_url)
+        else:
+            print u'登录QQ应用平台失败了'
+            return False
+
         print u'2.1 检查cookie中的数据'
         #print self.cookie.make_cookies()
         for index,cookie in enumerate(self.cookiejar):
