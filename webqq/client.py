@@ -523,6 +523,14 @@ class WebQQClient(WebBrowser):
         self.msg_id +=1
         return self.msg_id
 
+    def get_group_lists(self):
+         url = 'http://s.web2.qq.com/api/get_group_name_list_mask2'
+         headers = {'Referer':'http://s.web2.qq.com/proxy.html?v=20110412001&callback=1&id=1'}
+         data = 'r=%7B%22vfwebqq%22%3A%22'+self.vfwebqq +'%22%7D'
+         content = self.post(url, data, headers=headers)
+         self.groups = json.loads(content)
+         print self.groups
+
     def send_group_message(self, to_group_uin, msg):
         '''
 
@@ -608,6 +616,7 @@ class WebQQClient(WebBrowser):
         self.runflag = value
 
     def run_forever(self):
+        self.get_group_lists()
         while self.runflag:
             try:
                 self.heartbeat()
