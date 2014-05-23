@@ -485,6 +485,7 @@ class WebQQClient(WebBrowser):
         content = self.get(api_url, data=post_data, headers=headers)
         print '%s logout...' % self.uin
         print content
+        self.cookiejar.save()
         self.vfwebqq    = ''
         self.psessionid = ''
         self.clientid   = 0
