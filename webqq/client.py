@@ -164,7 +164,7 @@ class WebQQClient(WebBrowser):
             # 这里不处理验证码的问题
             print 'Your QQ need capcha to login.'
             with open('./verify.png','wb') as ff:
-                verify_image_url = 'http://captcha.qq.com/getimage?aid=1003903&&uin=%(uin)s&vc_type=verify_code2' % {'uin':self.uin}
+                verify_image_url = 'https://ssl.captcha.qq.com/getimage?aid=1003903&&uin=%(uin)s&cap_cd=%(verify_code1)s' % {'uin':self.uin,'verify_code1':verify_code1}
                 ff.write(self.get(verify_image_url))
 
             import os
