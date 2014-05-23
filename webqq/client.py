@@ -9,6 +9,9 @@ class WebQQClient(object):
     def heartbeat(self):
         print 'Bom..bong!'
 
+    def poll(self):
+        return 'poll'
+
     def run_forever(self):
         i=0
         while True:
