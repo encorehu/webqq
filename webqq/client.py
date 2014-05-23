@@ -601,21 +601,11 @@ class WebQQClient(WebBrowser):
         r['msg_id']     = msg_id
         r['clientid']   = self.clientid
         r['psessionid'] = self.psessionid
-        #print r
-        ##print '-'*80
-        ##print json.dumps(r, separators=(',',':'))
-        ##print '-'*80
-        ##print urllib.urlencode({'r':json.dumps(r, separators=(',',':'))})
-
-        #print repr(json.dumps(r, separators=(',',':')))
-
-        #data = json.dumps(r, separators=(',',':'))
         data = {
             'r':json.dumps(r, separators=(',',':')).encode('utf-8'),
             'clientid':self.clientid,
             'psessionid':self.psessionid
         }
-        print data
 
         response = self.post(api_url, data, headers=headers)
         print response
