@@ -16,12 +16,30 @@ class WebQQException(Exception):
 class WebQQClient(WebBrowser):
     def __init__(self, *args, **kwargs):
         super(WebQQClient, self).__init__()
+        self.handle_count = 0
+        self.clientid = get_clientid()
+        self.psessionid = ''
+        self.ptwebqq    = ''
+        self.vfwebqq    = ''
+        self.skey       = ''
+        #self.uin      = uin
+        #self.password = password
+
+        self.set_runflag(False)
+        print 'clientid',self.clientid
 
     def need_username(self):
-        return False
+        '''用户名是QQ登录账号(数字, 长度大于5)或者邮箱地址'''
+        if self.username is None or len(self.username)<5 :
+            return True
+        else:
+            return False
 
     def need_password(self):
-        return False
+        if self.password is None or len(self.password)<8 :
+            return True
+        else:
+            return False
 
     def check_verify_code(self, uin=None, appid=None):
         verify_code1 = ''
