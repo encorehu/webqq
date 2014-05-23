@@ -23,7 +23,7 @@ class WebQQClient(WebBrowser):
         self.ptwebqq    = ''
         self.vfwebqq    = ''
         self.skey       = ''
-        #self.uin      = uin
+        self.uin      = kwargs.pop('username', None)
         #self.password = password
 
         self.set_runflag(False)
