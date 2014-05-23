@@ -1,5 +1,8 @@
 # -*- coding: utf-8 -*-
 
+import json
+import random
+
 from webclient import WebBrowser
 from protocol import (WEBQQ_APPID,
     get_timestamp,
