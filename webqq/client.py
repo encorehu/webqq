@@ -15,6 +15,9 @@ class WebQQClient(object):
     def handle(self, data):
         print data
 
+    def get_handlers(self):
+        return [self.handle]
+
     def run_forever(self):
         i=0
         while True:
