@@ -129,7 +129,84 @@ class WebQQClient(WebBrowser):
                 return True
 
     def login_ptlogin2(self, username = None, password = None, verify_code1 = None, verify_code2 = None):
-        return True
+        '''登录QQ平台'''
+        print u'2.开始登录webqq网站'
+        loginURL  = 'http://ptlogin2.qq.com/login?'
+        data ={
+            'u':self.uin,
+            'p':get_password(password, verify_code1, verify_code2), #对密码进行加密
+            'verifycode':verify_code1,
+            'webqq_type':'10',
+            'remember_uin':1,
+            'login2qq':'0',# 有的人是1
+            'aid':1003903,
+            'u1':'http://web.qq.com/loginproxy.html?login2qq=0&webqq_type=10',
+            'strong':'true',
+            'h':'1',
+            'ptredirect':'0',
+            'ptlang':'2052',
+            'from_ui':'1',
+            'pttype':'1',
+            'dumy':'',
+            'fp':'loginerroralert',
+            't':'1',
+            'g':'1',
+            'action':'5-25-61202',
+            'mibao_css':'m_webqq',
+        }
+
+        import urllib
+        query_string = urllib.urlencode(data)
+        #print 'query_string',query_string
+
+        loginURL=loginURL+query_string
+        """
+        添加http的header头，一定要添加referer,腾讯服务器会判断, 否则登录不成功
+        """
+        #self.headers['Referer'] = 'http://web2-b.qq.com/proxy.html'
+        headers = {}
+        headers['Referer'] = 'http://ui.ptlogin2.qq.com/cgi-bin/login?target=self&style=5&mibao_css=m_webqq&appid=1003903&enable_qlogin=0&no_verifyimg=1&s_url=http%3A%2F%2Fweb.qq.com%2Floginproxy.html&f_url=loginerroralert&strong_login=0&login_state=10&t=20121029001'
+        headers['Connection'] = 'keep-alive'
+
+        """
+        获取登录令牌第一部分，如果要写的健壮一些，那么这里可以对返回数据做一个验证，
+        正常登陆返回ptuiCB('0','0','http://t.qq.com','1','登录成功！', '娱讯传媒');
+        错误的返回
+        ptuiCB('7','0','','0','很遗憾，网络连接出现异常，请您稍后再试。(124780859)', '2476202050');
+        ptuiCB('4','0','','0','您输入的验证码不正确，请重新输入。', '2476202050');
+
+
+        可以验证第一个0，如果不是0，那么就是不正常登陆
+        """
+        response=self.get(loginURL, headers=headers)
+
+        content = response
+        print content,type(content)
+
+        print u'2.1 检查cookie中的数据'
+        #print self.cookie.make_cookies()
+        for index,cookie in enumerate(self.cookiejar):
+            #print index,":",cookie
+            if cookie.name == 'ptwebqq':
+                self.ptwebqq = cookie.value
+
+            if cookie.name == 'skey':
+                self.skey    = cookie.value
+
+            if cookie.name == 'ptcz':
+                self.ptcz    = cookie.value
+                #if index ==1:
+            #    gsid = cookie.value
+            print cookie.name,cookie.value #,cookie.port,cookie.path,cookie.expires
+
+        if self.skey == '' :
+            print u'虽然登录了webqqcom, 但是没有接收到下一步中必须用到的几个cookie'
+            self.logged_in = False
+            return False
+        else:
+            print u'成功登录了webqqcom, 并同时获取到了下一步中必须用到的几个cookie'
+            self.logged_in = True
+            return True
 
     def need_login_web2(self):
         return True
