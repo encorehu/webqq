@@ -67,14 +67,17 @@ class WebQQClient(WebBrowser):
         """
         if uin==None:
             uin=self.uin
-        verifyURL = 'http://check.ptlogin2.qq.com/check?uin=%s&appid=%s&r=%s' % (uin, WEBQQ_APPID, random.random())
+
+        #GET https://ssl.ptlogin2.qq.com/check?uin=2476202050&appid=1003903&js_ver=10079&js_type=0&login_sig=5Vyb8yT91BH5ZVR3AXrb7Cx-v2PuQ3LhXwCM-3MquWEdgXt005k3SjaGaf4jy1TF&u1=http%3A%2F%2Fweb2.qq.com%2Floginproxy.html&r=0.31033543101511896 HTTP/1.1
+
+        verifyURL = 'https://ssl.ptlogin2.qq.com/check?uin=%(uin)s&appid=%(appid)s&js_ver=10079&js_type=0&login_sig=%(login_sig)s&u1=http%%3A%%2F%%2Fweb2.qq.com%%2Floginproxy.html&r=%(randstamp)s' % {'uin':uin, 'appid':WEBQQ_APPID, 'randstamp':random.random(), 'login_sig':login_sig}
+        print 'GET', verifyURL
         headers={}
-        ###headers['Host'] = 'ptlogin2.qq.com'
         headers['Connection'] = 'keep-alive'
         """
         获取初次加密所需要的一个关键参数值
         """
-        #print 'GET ',verifyURL
+        '''
         cookies_attrs=[]
         _keys=[]
         needed_cookie_names=['uikey','pgv_pvid','pgv_info','chkuin']
