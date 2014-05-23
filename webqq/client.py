@@ -6,6 +6,9 @@ class WebQQClient(object):
     def logout(self):
         return True
 
+    def heartbeat(self):
+        print 'Bom..bong!'
+
     def run_forever(self):
         i=0
         while True:
