@@ -53,3 +53,5 @@ coverage.xml
 docs/_build/
 
 twebqqbot.py
+cookie.lwp
+verify.png
