@@ -1,4 +1,12 @@
 class WebQQClient(object):
+    def __init__(self, *args, **kwargs):
+        super(WebQQClient, self).__init__()
+
+    def need_username(self):
+        return False
+
+    def need_password(self):
+        return False
 
     def login(self, username=None, password=None):
         return True
