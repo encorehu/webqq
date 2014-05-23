@@ -8,6 +8,11 @@ class WebQQClient(object):
     def need_password(self):
         return False
 
+    def check_verify_code(self, uin=None, appid=None):
+        verify_code1 = ''
+        verify_code2 = ''
+        return (verify_code1, verify_code2)
+
     def login(self, username=None, password=None):
         return True
 
