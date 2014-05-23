@@ -437,6 +437,7 @@ class WebQQClient(WebBrowser):
             self.uin      = username
             self.username = username
             self.password = password
+
             if not self.need_login_ptlogin2():
                 print u'无需登录ptlogin2, 直接使用现有session数据登录qqapi接口'
                 if not self.need_login_web2(): # 不需要登录 qqapi了, 这表示登录成功, 以后可以发消息 获取用户信息等操作了
@@ -456,7 +457,8 @@ class WebQQClient(WebBrowser):
                                 result = self.login_qqapi()
                         return result
             else:#不需要登录 webqqcom, 直接去登录 qqapi 接口
-                print u'需要登录webqqcom'
+                print u'需要登录QQ应用平台'
+                #GET http://ptlogin4.web2.qq.com/check_sig?pttype=1&uin=2476202050&service=login&nodirect=0&ptsig=wX3EueUa9qphimqdbBI4IIMNx7Onbm8rNKwrKLU48hM_&s_url=http%3A%2F%2Fweb2.qq.com%2Floginproxy.html%3Flogin2qq%3D0%26webqq_type%3D10&f_url=&ptlang=2052&ptredirect=100&aid=1003903&daid=164&j_later=0&low_login_hour=0&regmaster=0&pt_login_type=1&pt_aid=0&pt_aaid=0&pt_light=0
                 verify_code1, verify_code2 = self.check_verify_code()
                 if not self.login_ptlogin2(username=username, password=password, verify_code1=verify_code1, verify_code2=verify_code2):
                     print u'登录QQ应用平台失败'
