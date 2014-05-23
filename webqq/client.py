@@ -607,14 +607,13 @@ class WebQQClient(WebBrowser):
         import urllib
 
         #print urllib.urlencode(data)
-        print 'send', msg.decode('utf-8')
+        print 'send to group uin', to_group_uin, msg.decode('utf-8')
 
         r={}
         r['group_uin']   = to_group_uin
 
         content = []
         content.append(msg)
-        #content.append('')
         #content.append('')
         font = {
             'name':'宋体',
@@ -625,20 +624,10 @@ class WebQQClient(WebBrowser):
 
         content.append(['font', font])
 
-
         r['content']    = json.dumps(content, separators=(',',':'))
         r['msg_id']     = msg_id
         r['clientid']   = self.clientid
         r['psessionid'] = self.psessionid
-        #print r
-        ##print '-'*80
-        ##print json.dumps(r, separators=(',',':'))
-        ##print '-'*80
-        ##print urllib.urlencode({'r':json.dumps(r, separators=(',',':'))})
-
-        #print repr(json.dumps(r, separators=(',',':')))
-
-        #data = json.dumps(r, separators=(',',':'))
         data = {
             'r':json.dumps(r, separators=(',',':')).encode('utf-8'),
             'clientid':self.clientid,
