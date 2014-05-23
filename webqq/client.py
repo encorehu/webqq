@@ -107,7 +107,26 @@ class WebQQClient(WebBrowser):
         return (verify_code1, verify_code2)
 
     def need_login_ptlogin2(self):
-        return True
+        # 看看 这个机器人还需不需要再次登录http://ptlogin2.qq.com/login
+        # ptwebqq 的值是未注销之前的值, 如果有值, 说明cookie或者内存中有这个值, 机器人还处于未注销的状态, 就不需要再次登录网站了
+        if self.cookiejar == None:
+            return True
+        else:
+            for index,cookie in enumerate(self.cookiejar):
+                #print index,":",cookie
+                if cookie.name == 'ptwebqq':
+                    self.ptwebqq = cookie.value
+
+                if cookie.name == 'skey':
+                    self.skey    = cookie.value
+
+                if cookie.name == 'ptcz':
+                    self.ptcz    = cookie.value
+
+            if self.ptwebqq:
+                return False
+            else:
+                return True
 
     def login_ptlogin2(self, username = None, password = None, verify_code1 = None, verify_code2 = None):
         return True
