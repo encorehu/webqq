@@ -510,7 +510,13 @@ class WebQQClient(WebBrowser):
         }
 
         response = self.post(poll_url, data, headers=headers)
-        messages = json.loads(response)
+        try:
+            messages = json.loads(response)
+        except ValueError:
+            # No JSON object could be decoded
+            # 不是正常的 json数据
+            messages = response
+            print messages
         if isinstance(messages, dict):
             retcode = messages['retcode']
             if retcode == 116:
@@ -651,9 +657,10 @@ class WebQQClient(WebBrowser):
             try:
                 self.heartbeat()
                 data = self.poll()
-                for handler in self.get_handlers():
-                    handler(data)
-                    self.handle_count = self.handle_count +1
+                if data != None:
+                    for handler in self.get_handlers():
+                        handler(data)
+                        self.handle_count = self.handle_count +1
 
                 if self.handle_count < 40:
                     self.set_runflag(True)
