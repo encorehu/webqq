@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from webclient import WebBrowser
 from protocol import (WEBQQ_APPID,
     get_timestamp,
