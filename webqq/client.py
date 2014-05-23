@@ -378,9 +378,16 @@ class WebQQClient(WebBrowser):
         self.runflag = value
 
     def run_forever(self):
-        i=0
-        while True:
-            i=i+1
-            if i>100:
-                break
-            print i
+        while self.runflag:
+            self.heartbeat()
+            data = self.poll()
+            for handler in self.get_handlers():
+                handler(data)
+                self.handle_count = self.handle_count +1
+
+            if self.handle_count < 100:
+                self.set_runflag(True)
+            else:
+                self.set_runflag(False)
+        self.logout()
+        print 'Exiting...'
