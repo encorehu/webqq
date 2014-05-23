@@ -1,4 +1,6 @@
-class WebQQClient(object):
+from webclient import WebBrowser
+
+class WebQQClient(WebBrowser):
     def __init__(self, *args, **kwargs):
         super(WebQQClient, self).__init__()
 
