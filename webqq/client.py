@@ -5,6 +5,9 @@ from protocol import (WEBQQ_APPID,
     get_password,
     )
 
+class WebQQException(Exception):
+    pass
+
 class WebQQClient(WebBrowser):
     def __init__(self, *args, **kwargs):
         super(WebQQClient, self).__init__()
