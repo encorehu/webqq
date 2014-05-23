@@ -523,6 +523,87 @@ class WebQQClient(WebBrowser):
         self.msg_id +=1
         return self.msg_id
 
+    def send_group_message(self, to_group_uin, msg):
+        '''
+
+        @to_group_uin: unicode string
+        @msg: utf-8 string
+        '''
+        if isinstance(to_group_uin, unicode):
+            to_group_uin=str(to_group_uin)
+
+        if isinstance(to_group_uin, long):
+            to_group_uin=str(to_group_uin)
+
+        if isinstance(self.psessionid, unicode):
+            self.psessionid=str(self.psessionid)
+
+        api_url ='http://d.web2.qq.com/channel/send_qun_msg2'
+        headers ={'Referer':'http://d.web2.qq.com/proxy.html?v=20110331002&callback=1&id=3'}
+        t='''{"group_uin":%(group_uin)s,"content":"[\"%(message)s\",[\"font\",{\"name\":\"宋体\",\"size\":\"10\",\"style\":[0,0,0],\"color\":\"000000\"}]]","msg_id":%(msg_id)s,"clientid":"%(clientid)s","psessionid":"%(psessionid)s"}'''
+        #print type(to_group_uin)
+        #print type(msg)
+        #print type(self.clientid)
+        #print type(self.psessionid)
+
+        msg_id=self.get_msg_id()
+
+        t=t % {
+                'group_uin':to_group_uin, # if to_group_uin is unicode, and msg is utf-8, will cause error:
+                'message':msg,            # UnicodeDecodeError: 'ascii' codec can't decode byte 0xe5 in position 37: ordinal not in range(128)
+                'msg_id':msg_id,
+                'clientid':self.clientid,
+                'psessionid':self.psessionid
+        }
+        data = {
+            'r':t,
+            'clientid':self.clientid,
+            'psessionid':self.psessionid
+        }
+        ###print data
+        import urllib
+
+        #print urllib.urlencode(data)
+        print 'send', msg.decode('utf-8')
+
+        r={}
+        r['group_uin']   = to_group_uin
+
+        content = []
+        content.append(msg)
+        #content.append('')
+        #content.append('')
+        font = {
+            'name':'宋体',
+            'size':'10',
+            'style':[0,0,0],
+            'color':'000000'
+        }
+
+        content.append(['font', font])
+
+
+        r['content']    = json.dumps(content, separators=(',',':'))
+        r['msg_id']     = msg_id
+        r['clientid']   = self.clientid
+        r['psessionid'] = self.psessionid
+        #print r
+        ##print '-'*80
+        ##print json.dumps(r, separators=(',',':'))
+        ##print '-'*80
+        ##print urllib.urlencode({'r':json.dumps(r, separators=(',',':'))})
+
+        #print repr(json.dumps(r, separators=(',',':')))
+
+        #data = json.dumps(r, separators=(',',':'))
+        data = {
+            'r':json.dumps(r, separators=(',',':')).encode('utf-8'),
+            'clientid':self.clientid,
+            'psessionid':self.psessionid
+        }
+
+        response = self.post(api_url, data, headers=headers)
+        #print response
     def set_runflag(self, value):
         self.runflag = value
 
