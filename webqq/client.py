@@ -619,11 +619,12 @@ class WebQQClient(WebBrowser):
             try:
                 self.heartbeat()
                 data = self.poll()
-                for handler in self.get_handlers():
-                    handler(data)
-                    self.handle_count = self.handle_count +1
+                if data != None:
+                    for handler in self.get_handlers():
+                        handler(data)
+                        self.handle_count = self.handle_count +1
 
-                if self.handle_count < 40:
+                if self.handle_count < 400:
                     self.set_runflag(True)
                 else:
                     self.set_runflag(False)
