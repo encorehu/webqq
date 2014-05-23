@@ -584,10 +584,7 @@ class WebQQClient(WebBrowser):
         api_url ='http://d.web2.qq.com/channel/send_qun_msg2'
         headers ={'Referer':'http://d.web2.qq.com/proxy.html?v=20110331002&callback=1&id=3'}
         t='''{"group_uin":%(group_uin)s,"content":"[\"%(message)s\",[\"font\",{\"name\":\"宋体\",\"size\":\"10\",\"style\":[0,0,0],\"color\":\"000000\"}]]","msg_id":%(msg_id)s,"clientid":"%(clientid)s","psessionid":"%(psessionid)s"}'''
-        #print type(to_group_uin)
-        #print type(msg)
-        #print type(self.clientid)
-        #print type(self.psessionid)
+
 
         msg_id=self.get_msg_id()
 
@@ -615,7 +612,6 @@ class WebQQClient(WebBrowser):
         content = []
         content.append(msg)
         #content.append('')
-        #content.append('')
         font = {
             'name':'宋体',
             'size':'10',
@@ -624,7 +620,6 @@ class WebQQClient(WebBrowser):
         }
 
         content.append(['font', font])
-
 
         r['content']    = json.dumps(content, separators=(',',':'))
         r['msg_id']     = msg_id
@@ -649,7 +644,6 @@ class WebQQClient(WebBrowser):
         response = self.post(api_url, data, headers=headers)
         print response
 
-
     def set_runflag(self, value):
         self.runflag = value
 
@@ -671,6 +665,5 @@ class WebQQClient(WebBrowser):
             except KeyboardInterrupt:
                 print "Auto Polling and Responding Stopped by user... \n"
                 raise
-
         self.logout()
         print 'Exiting...'
