@@ -19,6 +19,12 @@ class WebQQClient(object):
     def login_ptlogin2(self, username = None, password = None, verify_code1 = None, verify_code2 = None):
         return True
 
+    def need_login_web2(self):
+        return True
+
+    def login_web2(self):
+        return True
+
     def login(self, username=None, password=None):
         return True
 
