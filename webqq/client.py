@@ -4,6 +4,7 @@ import json
 import random
 
 from webclient import WebBrowser
+
 from protocol import (WEBQQ_APPID,
     get_timestamp,
     get_clientid,
@@ -275,6 +276,7 @@ class WebQQClient(WebBrowser):
         content  = response
         print content
 
+        '''# 登录qq聊天接口返回的cookie中的值, 用于后续获取用户列表和群列表, 发言等等功能'''
         #
         #print 'Cookies..........'
         #for index,cookie in enumerate(self.cookie):
