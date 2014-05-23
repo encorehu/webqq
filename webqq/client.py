@@ -82,32 +82,7 @@ class WebQQClient(WebBrowser):
         """
         获取初次加密所需要的一个关键参数值
         """
-        import cookielib
-        version = 0
-        name='chkuin'
-        value=self.uin
-        port = None
-        port_specified=None
-        domain, domain_specified, domain_initial_dot='ptlogin2.qq.com', None, None
-        path, path_specified = '/',None
-        secure = None
-        expires = None
-        discard = None
-        comment = None
-        comment_url = None
-        rest = {}
-        c = cookielib.Cookie(version,
-                      name, value,
-                      port, port_specified,
-                      domain, domain_specified, domain_initial_dot,
-                      path, path_specified,
-                      secure,
-                      expires,
-                      discard,
-                      comment,
-                      comment_url,
-                      rest)
-        self.cookiejar.set_cookie(c)
+        self.add_cookie(key='chkuin', value=self.uin, domain='ptlogin2.qq.com')
         response = self.get(verifyURL, headers = headers)
         print response
 
@@ -242,36 +217,8 @@ class WebQQClient(WebBrowser):
         """
 
         #pgv_pvid=936990096; pgv_info=ssid=s3561591060&pgvReferrer=;
-        import cookielib
-        version = 0
-        name='pgv_pvid'
-        value='936990096'
-        port = None
-        port_specified=None
-        domain, domain_specified, domain_initial_dot='ui.ptlogin2.qq.com', None, None
-        path, path_specified = '/',None
-        secure = None
-        expires = None
-        discard = None
-        comment = None
-        comment_url = None
-        rest = {}
-        c = cookielib.Cookie(version,
-                      name, value,
-                      port, port_specified,
-                      domain, domain_specified, domain_initial_dot,
-                      path, path_specified,
-                      secure,
-                      expires,
-                      discard,
-                      comment,
-                      comment_url,
-                      rest)
-
-        self.cookiejar.set_cookie(c)
-        c.name='pgv_info'
-        c.value='ssid=s3561591060&pgvReferrer='
-        self.cookiejar.set_cookie(c)
+        self.add_cookie(key='pgv_pvid', value='936990096', domain='ui.ptlogin2.qq.com')
+        self.add_cookie(key='pgv_info', value='ssid=s3561591060&pgvReferrer=', domain='ui.ptlogin2.qq.com')
 
         response=self.get(loginURL, headers=headers)
 
