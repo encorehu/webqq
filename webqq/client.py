@@ -514,7 +514,30 @@ class WebQQClient(WebBrowser):
         return messages
 
     def handle(self, data):
-        print data
+        if not data:
+            return
+
+        if data['retcode']==0 and data.has_key('result'):
+            print data
+            for r in data['result']:
+                #print r['value']
+                if r['poll_type']==u'group_message':
+                    texts=[]
+                    for x in r['value']['content']:
+                        if type(x) in [unicode, str]:
+                            texts.append(x)
+                    print ''.join(x)
+
+                    #try:
+                    replies=['额','呵呵','...','你...太厉害了','??','真的吗?', '为什么?']
+                    reply=random.choice(replies)
+                    time.sleep(0.5)
+                    self.send_group_message(r['value']['from_uin'], reply)
+                    #self.send_group_message(r['value']['group_code'], 'aaaa')
+                    #except Exception as e:
+                    #    print e
+        else:
+            print data
 
     def get_handlers(self):
         return [self.handle]
