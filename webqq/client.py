@@ -1,4 +1,9 @@
 from webclient import WebBrowser
+from protocol import (WEBQQ_APPID,
+    get_timestamp,
+    get_clientid,
+    get_password,
+    )
 
 class WebQQClient(WebBrowser):
     def __init__(self, *args, **kwargs):
