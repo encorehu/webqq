@@ -15,7 +15,6 @@ from protocol import (WEBQQ_APPID,
 import logging
 logger=logging.getLogger('webclient.webqq')
 
-
 class WebQQException(Exception):
     pass
 
@@ -23,10 +22,10 @@ class WebQQClient(WebBrowser):
     def __init__(self, *args, **kwargs):
         super(WebQQClient, self).__init__(*args, **kwargs)
         self.handle_count = 0
-        self.ptwebqq    = ''
         self.clientid = get_clientid()
         self.msg_id   = random.randint(19990909,99999999)
         self.psessionid = ''
+        self.ptwebqq    = ''
         self.vfwebqq    = ''
         self.skey       = ''
         self.uin      = kwargs.pop('username', None)
@@ -49,6 +48,7 @@ class WebQQClient(WebBrowser):
             return False
 
     def check_login_sig(self):
+        '''添加检查登录签名函数 check_login_sig, 没有这个, 登录的时候可能不能获得正确的跳转链接'''
         login_sig_url = 'https://ui.ptlogin2.qq.com/cgi-bin/login?daid=164&target=self&style=5&mibao_css=m_webqq&appid=1003903&enable_qlogin=0&no_verifyimg=1&s_url=http%3A%2F%2Fweb2.qq.com%2Floginproxy.html&f_url=loginerroralert&strong_login=0&login_state=10&t=20131202001'
         referer = 'http://web2.qq.com/webqq.html'
         print 'GET', login_sig_url
@@ -82,33 +82,6 @@ class WebQQClient(WebBrowser):
         """
         获取初次加密所需要的一个关键参数值
         """
-        '''
-        cookies_attrs=[]
-        _keys=[]
-        needed_cookie_names=['uikey','pgv_pvid','pgv_info','chkuin']
-        for index,cookie in enumerate(self.cookiejar):
-            _keys.append(cookie.name)
-            if cookie.domain.endswith('.qq.com') or cookie.domain.endswith('.ptlogin2.qq.com'):
-                #if cookie.name in needed_cookie_names:
-                if ((cookie.value is not None) and
-                    self.cookiejar.non_word_re.search(cookie.value)):
-                    value = self.cookiejar.quote_re.sub(r"\\\1", cookie.value)
-                else:
-                    value = cookie.value
-
-                if cookie.value is None:
-                    cookies_attrs.append(cookie.name)
-                else:
-                    cookies_attrs.append("%s=%s" % (cookie.name, value))
-
-        print cookies_attrs
-        if not 'chkuin' in _keys:
-            cookies_attrs.append("%s=%s" % ('chkuin', self.uin))
-
-        cookies='; '.join(cookies_attrs)
-        print cookies
-        response = self.get(verifyURL, headers = headers, cookies=cookies)
-        '''
         import cookielib
         version = 0
         name='chkuin'
@@ -240,7 +213,6 @@ class WebQQClient(WebBrowser):
             'pt_uistyle':'5'
         }
 
-
         import urllib
         query_string = urllib.urlencode(data)
         #print 'query_string',query_string
@@ -304,8 +276,6 @@ class WebQQClient(WebBrowser):
         response=self.get(loginURL, headers=headers)
 
         content = response
-
-
         print content,type(content)
 
         check_url = content.split("','")[2]
@@ -407,6 +377,7 @@ class WebQQClient(WebBrowser):
         content  = response
         print content
 
+        '''# 登录qq聊天接口返回的cookie中的值, 用于后续获取用户列表和群列表, 发言等等功能'''
         #
         #print 'Cookies..........'
         #for index,cookie in enumerate(self.cookie):
