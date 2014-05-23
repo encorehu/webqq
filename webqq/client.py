@@ -349,7 +349,18 @@ class WebQQClient(WebBrowser):
                 return True
 
     def logout(self):
-        return True
+        api_url   = 'http://d.web2.qq.com/channel/logout2?ids=&clientid=%s&psessionid=%s&t=%s' % (self.clientid, self.psessionid, get_timestamp())
+        post_data = None
+
+        headers={}
+        headers['Referer'] = 'http://d.web2.qq.com/proxy.html?v=20110331002&callback=1&id=3'
+
+        content = self.get(api_url, data=post_data, headers=headers)
+        print '%s logout...' % self.uin
+        print content
+        self.vfwebqq    = ''
+        self.psessionid = ''
+        self.clientid   = 0
 
     def heartbeat(self):
         print 'Bom..bong!'
