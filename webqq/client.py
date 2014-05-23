@@ -211,14 +211,15 @@ class WebQQClient(WebBrowser):
             'p':get_password(password, verify_code1, verify_code2), #对密码进行加密
             'verifycode':verify_code1,
             'webqq_type':'10',
-            'remember_uin':1,
+            'remember_uin':'1',
             'login2qq':'0',# 有的人是1
-            'aid':1003903,
-            'u1':'http://web.qq.com/loginproxy.html?login2qq=0&webqq_type=10',
+            'aid':'1003903',
+            'u1':'http://web2.qq.com/loginproxy.html?login2qq=0&webqq_type=10',
             'strong':'true',
             'h':'1',
             'ptredirect':'0',
             'ptlang':'2052',
+            'daid':'164',
             'from_ui':'1',
             'pttype':'1',
             'dumy':'',
