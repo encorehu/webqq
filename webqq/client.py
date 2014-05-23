@@ -42,7 +42,25 @@ class WebQQClient(WebBrowser):
         else:
             return False
 
+    def check_login_sig(self):
+        '''添加检查登录签名函数 check_login_sig, 没有这个, 登录的时候可能不能获得正确的跳转链接'''
+        login_sig_url = 'https://ui.ptlogin2.qq.com/cgi-bin/login?daid=164&target=self&style=5&mibao_css=m_webqq&appid=1003903&enable_qlogin=0&no_verifyimg=1&s_url=http%3A%2F%2Fweb2.qq.com%2Floginproxy.html&f_url=loginerroralert&strong_login=0&login_state=10&t=20131202001'
+        referer = 'http://web2.qq.com/webqq.html'
+        print 'GET', login_sig_url
+        content =self.get(login_sig_url, referer=referer)
+        #var g_login_sig=encodeURIComponent("5Vyb8yT91BH5ZVR3AXrb7Cx-v2PuQ3LhXwCM-3MquWEdgXt005k3SjaGaf4jy1TF"); //安全参数
+        f1='var g_login_sig=encodeURIComponent("'
+        f2='");'
+        pos1=content.find(f1)
+        pos2=content.find(f2, pos1)
+        login_sig = content[pos1+len(f1):pos2]
+        print 'login_sig',login_sig
+        self.login_sig = login_sig
+        return login_sig
+
     def check_verify_code(self, uin=None, appid=None):
+        login_sig= self.check_login_sig()
+
         print u'1.开始检查是否需要输入验证码'
         """
         算出用户名加密后的字符串
