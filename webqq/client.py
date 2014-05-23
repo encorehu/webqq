@@ -419,7 +419,7 @@ class WebQQClient(WebBrowser):
                     print u'从返回的数据中获取用于操作 qqapi 接口的必要信息'
                     self.vfwebqq    = json_data['result']['vfwebqq']
                     self.psessionid = json_data['result']['psessionid']
-                    self.save_cookie()
+                    self.cookiejar.save()
                     print u'重要信息获取成功'
                     return True
                 except KeyError:
