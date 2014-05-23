@@ -223,10 +223,14 @@ class WebQQClient(WebBrowser):
             'pttype':'1',
             'dumy':'',
             'fp':'loginerroralert',
+            'action':'4-19-23387',
+            'mibao_css':'m_webqq',
             't':'1',
             'g':'1',
-            'action':'5-25-61202',
-            'mibao_css':'m_webqq',
+            'js_type':'0',
+            'js_ver':'10079',
+            'login_sig':self.login_sig,
+            'pt_uistyle':'5'
         }
 
         import urllib
