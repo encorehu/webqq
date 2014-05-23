@@ -511,7 +511,16 @@ class WebQQClient(WebBrowser):
 
         response = self.post(poll_url, data, headers=headers)
         messages = json.loads(response)
-        return messages
+        if isinstance(messages, dict):
+            retcode = messages['retcode']
+            if retcode == 116:
+                self.ptwebqq=messages['p']
+                logger.info('ptwebqq value CHANGED.')
+            elif retcode in [108,112]:
+                logger.warn('YOUR ARE OFFLINE!!!')
+            else:
+                return messages
+        return None
 
     def handle(self, data):
         if not data:
