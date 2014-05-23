@@ -644,6 +644,7 @@ class WebQQClient(WebBrowser):
 
         response = self.post(api_url, data, headers=headers)
         #print response
+
     def set_runflag(self, value):
         self.runflag = value
 
