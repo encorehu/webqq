@@ -23,6 +23,7 @@ class WebQQClient(WebBrowser):
         super(WebQQClient, self).__init__(*args, **kwargs)
         self.handle_count = 0
         self.clientid = get_clientid()
+        self.msg_id   = random.randint(19990909,99999999)
         self.psessionid = ''
         self.ptwebqq    = ''
         self.vfwebqq    = ''
@@ -517,6 +518,10 @@ class WebQQClient(WebBrowser):
 
     def get_handlers(self):
         return [self.handle]
+
+    def get_msg_id(self):
+        self.msg_id +=1
+        return self.msg_id
 
     def set_runflag(self, value):
         self.runflag = value
