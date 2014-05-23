@@ -26,6 +26,24 @@ class WebQQClient(object):
         return True
 
     def login(self, username=None, password=None):
+        if not self.need_login_ptlogin2():
+            if not self.need_login_web2():
+                return True
+            else:
+                if self.login_web2():
+                    return True
+                else:
+                    return False
+        else:
+            verify_code1, verify_code2 = self.check_verify_code()
+            if not self.login_ptlogin2(username=username,password=password,verify_code1=verify_code1,verify_code2=verify_code2):
+                self.set_runflag(False)
+                return False
+
+            if not self.login_web2():
+                self.set_runflag(False)
+                return False
+
         return True
 
     def logout(self):
