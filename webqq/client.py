@@ -23,7 +23,7 @@ class WebQQClient(WebBrowser):
         super(WebQQClient, self).__init__(*args, **kwargs)
         self.handle_count = 0
         self.clientid = get_clientid()
-        self.msg_id   = random.randint(19990909,99999999)
+        self.msg_id   = random.randint(19990909,90000000)
         self.psessionid = ''
         self.ptwebqq    = ''
         self.vfwebqq    = ''
