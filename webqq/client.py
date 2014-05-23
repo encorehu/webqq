@@ -82,33 +82,6 @@ class WebQQClient(WebBrowser):
         """
         获取初次加密所需要的一个关键参数值
         """
-        '''
-        cookies_attrs=[]
-        _keys=[]
-        needed_cookie_names=['uikey','pgv_pvid','pgv_info','chkuin']
-        for index,cookie in enumerate(self.cookiejar):
-            _keys.append(cookie.name)
-            if cookie.domain.endswith('.qq.com') or cookie.domain.endswith('.ptlogin2.qq.com'):
-                #if cookie.name in needed_cookie_names:
-                if ((cookie.value is not None) and
-                    self.cookiejar.non_word_re.search(cookie.value)):
-                    value = self.cookiejar.quote_re.sub(r"\\\1", cookie.value)
-                else:
-                    value = cookie.value
-
-                if cookie.value is None:
-                    cookies_attrs.append(cookie.name)
-                else:
-                    cookies_attrs.append("%s=%s" % (cookie.name, value))
-
-        print cookies_attrs
-        if not 'chkuin' in _keys:
-            cookies_attrs.append("%s=%s" % ('chkuin', self.uin))
-
-        cookies='; '.join(cookies_attrs)
-        print cookies
-        response = self.get(verifyURL, headers = headers, cookies=cookies)
-        '''
         import cookielib
         version = 0
         name='chkuin'
