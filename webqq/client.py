@@ -432,12 +432,12 @@ class WebQQClient(WebBrowser):
                     self.psessionid = ''
                     print '未能正常获取用于操作 qqapi 接口的必要信息, 登录失败.'
                     return False
-            elif  retcode == 103 or retcode ==121:
+            elif retcode == 103 or retcode ==121:
                 print u'连接不成功，需要重新登录'
                 self.logged_in = False
                 return False
 
-    def login(self, username=None, password=None):
+    def login(self, username = None, password = None):
         if username and password:
             self.uin      = username
             self.username = username
