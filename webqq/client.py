@@ -450,8 +450,7 @@ class WebQQClient(WebBrowser):
                     #raise WebQQException(u'登录WebQQ聊天接口失败')
                     self.runflag = False
                     return False
-
-                self.set_runflag(True)
+                self.runflag = True
                 return True
 
     def logout(self):
@@ -484,7 +483,13 @@ class WebQQClient(WebBrowser):
         }
 
         response = self.post(poll_url, data, headers=headers)
-        messages = json.loads(response)
+        try:
+            messages = json.loads(response)
+        except ValueError:
+            # No JSON object could be decoded
+            # 不是正常的 json数据
+            messages = response
+            print messages
         if isinstance(messages, dict):
             retcode = messages['retcode']
             if retcode == 116:
