@@ -607,7 +607,7 @@ class WebQQClient(WebBrowser):
         import urllib
 
         #print urllib.urlencode(data)
-        print 'send', msg.decode('utf-8')
+        print 'send to group uin', to_group_uin, msg.decode('utf-8')
 
         r={}
         r['group_uin']   = to_group_uin
@@ -644,9 +644,10 @@ class WebQQClient(WebBrowser):
             'clientid':self.clientid,
             'psessionid':self.psessionid
         }
+        print data
 
         response = self.post(api_url, data, headers=headers)
-        #print response
+        print response
 
 
     def set_runflag(self, value):
