@@ -1,7 +1,6 @@
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-twebqqbot.py
 # C extensions
 *.so
 
@@ -51,4 +50,6 @@ coverage.xml
 
 # Sphinx documentation
 docs/_build/
-
+twebqqbot.py
+cookie.lwp
+verify.png
